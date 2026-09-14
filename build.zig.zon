@@ -1,0 +1,12 @@
+.{
+    .name = .microbit,
+    .version = "0.0.0",
+    .minimum_zig_version = "0.17.0-dev.2125+0d600e488",
+    .fingerprint = 0xf6d130bed3fb17e0,
+    .dependencies = .{},
+    .paths = .{
+        "build.zig",
+        "build.zig.zon",
+        "src",
+    },
+}
