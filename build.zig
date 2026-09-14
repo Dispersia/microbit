@@ -43,14 +43,18 @@ pub fn build(b: *std.Build) void {
 
     b.getInstallStep().dependOn(&install_hex.step);
 
-    const flash_cmd = b.addSystemCommand(&.{
-        "probe-rs",
-        "download",
-        "--chip",
-        "nRF52833_xxAA",
-    });
+    const default_mount = "/run/media/dispe/MICROBIT";
 
-    flash_cmd.addFileArg(firmware.getEmittedBin());
+    const microbit_mount = b.option(
+        []const u8,
+        "microbit",
+        "Mount point of the MICROBIT volume",
+    ) orelse default_mount;
+
+    const flash_cmd = b.addSystemCommand(&.{"cp"});
+
+    flash_cmd.addFileArg(hex.getOutput());
+    flash_cmd.addArg(b.pathJoin(&.{ microbit_mount, "firmware.hex" }));
 
     const flash_step = b.step(
         "flash",
